@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="vi" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minimalist Team Portfolios - Nhóm 7</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,700;1,300&family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Be Vietnam Pro"', '"Space Grotesk"', 'sans-serif'],
+                        serif: ['"Instrument Serif"', 'serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        .view-section {
+            transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1), transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .profile-content {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            display: none;
+        }
+        .profile-content.active {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+            display: flex;
+        }
+        .parallax-layer {
+            transition: transform 0.12s ease-out;
+        }
+        html, body, header, main, footer {
+            transition: background-color 0.35s ease, color 0.35s ease, border-color 0.35s ease;
+        }
+    </style>
+</head>
+<body class="bg-[#f9f8f6] dark:bg-[#121212] text-[#1a1a1a] dark:text-[#e8e6e3] font-sans antialiased min-h-screen flex flex-col justify-between selection:bg-[#1a1a1a] selection:text-[#f9f8f6] dark:selection:bg-[#e8e6e3] dark:selection:text-[#121212] overflow-x-hidden" onmousemove="handleParallax(event)">
+
+    <!-- Header -->
+    <header id="main-header" class="w-full max-w-7xl mx-auto px-4 sm:px-8 md:px-12 py-6 sm:py-8 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 sm:gap-6 border-b border-black/10 dark:border-white/10 opacity-0 -translate-y-4 pointer-events-none transition-all duration-700">
+        <div>
+            <h1 class="font-serif text-2xl sm:text-3xl tracking-tight italic cursor-pointer hover:opacity-70 transition-opacity" onclick="returnToGroupView()">Cohort Portfolio</h1>
+            <p class="text-[10px] sm:text-xs uppercase tracking-widest text-neutral-500 dark:text-neutral-400 mt-1 font-mono">Typography-Focused Showcase</p>
+        </div>
+        
+        <div class="w-full lg:w-auto flex flex-wrap items-center justify-between lg:justify-end gap-2 sm:gap-3">
+            <nav id="desktop-member-nav" class="hidden md:flex flex-wrap gap-1.5 sm:gap-2 bg-neutral-200/70 dark:bg-neutral-800/70 p-1.5 rounded-full backdrop-blur-md">
+                <button onclick="handleMemberNav(0)" id="btn-0" class="member-btn px-3 sm:px-5 py-2 rounded-full text-[11px] sm:text-xs uppercase tracking-widest font-medium transition-all duration-300 bg-[#1a1a1a] dark:bg-[#e8e6e3] text-[#f9f8f6] dark:text-[#121212] shadow-sm whitespace-nowrap">Mỹ Ngọc</button>
+                <button onclick="handleMemberNav(1)" id="btn-1" class="member-btn px-3 sm:px-5 py-2 rounded-full text-[11px] sm:text-xs uppercase tracking-widest font-medium transition-all duration-300 text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/10 whitespace-nowrap">Thuận Phúc</button>
+                <button onclick="handleMemberNav(2)" id="btn-2" class="member-btn px-3 sm:px-5 py-2 rounded-full text-[11px] sm:text-xs uppercase tracking-widest font-medium transition-all duration-300 text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/10 whitespace-nowrap">Tiến Thành</button>
+                <button onclick="handleMemberNav(3)" id="btn-3" class="member-btn px-3 sm:px-5 py-2 rounded-full text-[11px] sm:text-xs uppercase tracking-widest font-medium transition-all duration-300 text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/10 whitespace-nowrap">Toàn Mỹ</button>
+            </nav>
+
+            <button onclick="toggleDarkMode()" class="px-3 py-2 rounded-full text-[11px] sm:text-xs uppercase tracking-widest font-medium transition-all duration-300 bg-neutral-200/70 dark:bg-neutral-800/70 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black backdrop-blur-md">
+                <span id="theme-icon">☾</span>
+            </button>
+
+            <button onclick="returnToGroupView()" class="px-4 py-2 rounded-full text-[11px] sm:text-xs uppercase tracking-widest font-medium transition-all duration-300 bg-neutral-200/70 dark:bg-neutral-800/70 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black backdrop-blur-md">
+                Nhóm 7 ↗
+            </button>
+        </div>
+    </header>
+
+    <main class="w-full max-w-7xl mx-auto px-4 sm:px-8 md:px-12 py-10 sm:py-16 md:py-20 flex-grow relative flex items-center justify-center">
+
+        <!-- VIEW 1: Group -->
+        <div id="group-intro-view" class="view-section w-full text-center py-12 sm:py-20 flex flex-col items-center justify-center space-y-6 sm:space-y-8 cursor-pointer select-none group" ondblclick="enterMemberView()" onclick="handleMobileGroupTap()">
+            <div class="parallax-layer space-y-3 sm:space-y-4 px-2" id="parallax-title-box">
+                <span class="text-[10px] sm:text-xs uppercase tracking-[0.25em] font-mono text-neutral-400 dark:text-neutral-500 block animate-pulse">Double-click or Tap to Enter</span>
+                <h1 class="font-serif text-6xl sm:text-8xl md:text-[10rem] lg:text-[12rem] tracking-tight leading-none italic group-hover:scale-105 transition-transform duration-500">Nhóm 7</h1>
+                <p class="font-serif text-xl sm:text-3xl md:text-4xl font-light text-neutral-600 dark:text-neutral-400 tracking-wide italic">"Just The Seventh Group"</p>
+            </div>
+            <div class="pt-6 sm:pt-12">
+                <span class="inline-block px-5 sm:px-6 py-2.5 sm:py-3 rounded-full border border-black/15 dark:border-white/15 text-[11px] sm:text-xs font-mono uppercase tracking-widest text-neutral-500 dark:text-neutral-400 bg-neutral-100/50 dark:bg-neutral-800/50 group-hover:bg-[#1a1a1a] group-hover:text-white dark:group-hover:bg-[#e8e6e3] dark:group-hover:text-[#121212] transition-all duration-300">
+                    Nhấp đúp hoặc chạm để mở danh sách thành viên ↗
+                </span>
+            </div>
+        </div>
+
+        <!-- VIEW 2: Members -->
+        <div id="members-container-view" class="view-section w-full relative opacity-0 pointer-events-none hidden">
+            
+            <!-- DESKTOP -->
+            <div id="desktop-profiles-wrapper" class="hidden md:block w-full min-h-[560px] relative">
+                <!-- Member 0 -->
+                <div id="profile-0" class="profile-content active flex-row gap-16 items-center">
+                    <div class="w-1/2 flex justify-start flex-shrink-0">
+                        <div class="relative w-full max-w-[450px] aspect-square rounded-2xl overflow-hidden shadow-2xl bg-neutral-200 dark:bg-neutral-800 border border-black/5 dark:border-white/5 group">
+                            <img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover grayscale contrast-125 group-hover:scale-105 transition-transform duration-700" alt="">
+                            <div class="absolute bottom-4 left-4 bg-white/80 dark:bg-black/70 backdrop-blur-md px-3 py-1 rounded-md text-[10px] font-mono tracking-wider uppercase">Real Cat Companion</div>
+                        </div>
+                    </div>
+                    <div class="w-1/2 flex flex-col justify-center space-y-5">
+                        <div class="space-y-1">
+                            <span class="text-xs uppercase tracking-widest font-mono text-neutral-500 dark:text-neutral-400">Member 01 / 04</span>
+                            <h2 class="font-serif text-5xl md:text-6xl tracking-tight leading-none italic">Võ Mỹ Ngọc</h2>
+                        </div>
+                        <div class="space-y-4 pt-4 border-t border-black/10 dark:border-white/10">
+                            <div>
+                                <span class="text-xs uppercase tracking-widest text-neutral-400 dark:text-neutral-500 block font-mono mb-1">Student ID</span>
+                                <span class="text-xl md:text-2xl font-mono font-medium">24127294</span>
+                            </div>
+                            <div>
+                                <span class="text-xs uppercase tracking-widest text-neutral-400 dark:text-neutral-500 block font-mono mb-1">Hobby & Passions</span>
+                                <p class="text-lg md:text-xl font-light">nghe podcast, xem phim, tụ họp bạn bè</p>
+                            </div>
+                            <div>
+                                <span class="text-xs uppercase tracking-widest text-neutral-400 dark:text-neutral-500 block font-mono mb-1.5">Skills</span>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="px-3 py-1 rounded-full text-xs bg-neutral-200/80 dark:bg-neutral-700/80">Communication</span>
+                                    <span class="px-3 py-1 rounded-full text-xs bg-neutral-200/80 dark:bg-neutral-700/80">Content Curation</span>
+                                    <span class="px-3 py-1 rounded-full text-xs bg-neutral-200/80 dark:bg-neutral-700/80">Team Collaboration</span>
+                                </div>
+                            </div>
+                            <button ondblclick="enterDetailedView(0)" class="mt-4 px-6 py-2.5 rounded-full border border-black/20 dark:border-white/20 text-xs uppercase tracking-widest font-medium hover:bg-[#1a1a1a] hover:text-white dark:hover:bg-[#e8e6e3] dark:hover:text-[#121212] transition-all duration-300">
+                                Full Profile ↗ (Double-click)
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Member 1 -->
+                <div id="profile-1" class="profile-content flex-row gap-16 items-center">
+                    <div class="w-1/2 flex justify-start flex-shrink-0">
+                        <div class="relative w-full max-w-[450px] aspect-square rounded-2xl overflow-hidden shadow-2xl bg-neutral-200 dark:bg-neutral-800 border border-black/5 dark:border-white/5 group">
+                            <img src="https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover grayscale contrast-125 group-hover:scale-105 transition-transform duration-700" alt="">
+                            <div class="absolute bottom-4 left-4 bg-white/80 dark:bg-black/70 backdrop-blur-md px-3 py-1 rounded-md text-[10px] font-mono tracking-wider uppercase">Real Cat Companion</div>
+                        </div>
+                    </div>
+                    <div class="w-1/2 flex flex-col justify-center space-y-5">
+                        <div class="space-y-1">
+                            <span class="text-xs uppercase tracking-widest font-mono text-neutral-500 dark:text-neutral-400">Member 02 / 04</span>
+                            <h2 class="font-serif text-5xl md:text-6xl tracking-tight leading-none italic">Lê Đức Thuận Phúc</h2>
+                        </div>
+                        <div class="space-y-4 pt-4 border-t border-black/10 dark:border-white/10">
+                            <div>
+                                <span class="text-xs uppercase tracking-widest text-neutral-400 dark:text-neutral-500 block font-mono mb-1">Student ID</span>
+                                <span class="text-xl md:text-2xl font-mono font-medium">24127498</span>
+                            </div>
+                            <div>
+                                <span class="text-xs uppercase tracking-widest text-neutral-400 dark:text-neutral-500 block font-mono mb-1">Hobby & Passions</span>
+                                <p class="text-lg md:text-xl font-light">chơi thể thao, chơi game, nghe nhạc</p>
+                            </div>
+                            <div>
+                                <span class="text-xs uppercase tracking-widest text-neutral-400 dark:text-neutral-500 block font-mono mb-1.5">Skills</span>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="px-3 py-1 rounded-full text-xs bg-neutral-200/80 dark:bg-neutral-700/80">Team Sports</span>
+                                    <span class="px-3 py-1 rounded-full text-xs bg-neutral-200/80 dark:bg-neutral-700/80">Strategic Gaming</span>
+                                    <span class="px-3 py-1 rounded-full text-xs bg-neutral-200/80 dark:bg-neutral-700/80">Music Appreciation</span>
+                                </div>
+                            </div>
+                            <button ondblclick="enterDetailedView(1)" class="mt-4 px-6 py-2.5 rounded-full border border-black/20 dark:border-white/20 text-xs uppercase tracking-widest font-medium hover:bg-[#1a1a1a] hover:text-white dark:hover:bg-[#e8e6e3] dark:hover:text-[#121212] transition-all duration-300">
+                                Full Profile ↗ (Double-click)
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Member 2 -->
+                <div id="profile-2" class="profile-content flex-row gap-16 items-center">
+                    <div class="w-1/2 flex justify-start flex-shrink-0">
+                        <div class="relative w-full max-w-[450px] aspect-square rounded-2xl overflow-hidden shadow-2xl bg-neutral-200 dark:bg-neutral-800 border border-black/5 dark:border-white/5 group">
+                            <img src="https://images.unsplash.com/photo-1548802673-380ab8ebc7b7?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover grayscale contrast-125 group-hover:scale-105 transition-transform duration-700" alt="">
+                            <div class="absolute bottom-4 left-4 bg-white/80 dark:bg-black/70 backdrop-blur-md px-3 py-1 rounded-md text-[10px] font-mono tracking-wider uppercase">Real Cat Companion</div>
+                        </div>
+                    </div>
+                    <div class="w-1/2 flex flex-col justify-center space-y-5">
+                        <div class="space-y-1">
+                            <span class="text-xs uppercase tracking-widest font-mono text-neutral-500 dark:text-neutral-400">Member 03 / 04</span>
+                            <h2 class="font-serif text-5xl md:text-6xl tracking-tight leading-none italic">Nguyễn Tiến Thành</h2>
+                        </div>
+                        <div class="space-y-4 pt-4 border-t border-black/10 dark:border-white/10">
+                            <div>
+                                <span class="text-xs uppercase tracking-widest text-neutral-400 dark:text-neutral-500 block font-mono mb-1">Student ID</span>
+                                <span class="text-xl md:text-2xl font-mono font-medium">24127121</span>
+                            </div>
+                            <div>
+                                <span class="text-xs uppercase tracking-widest text-neutral-400 dark:text-neutral-500 block font-mono mb-1">Hobby & Passions</span>
+                                <p class="text-lg md:text-xl font-light">Xem phim, gặp bạn bè, chơi game</p>
+                            </div>
+                            <div>
+                                <span class="text-xs uppercase tracking-widest text-neutral-400 dark:text-neutral-500 block font-mono mb-1.5">Skills</span>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="px-3 py-1 rounded-full text-xs bg-neutral-200/80 dark:bg-neutral-700/80">Film Analysis</span>
+                                    <span class="px-3 py-1 rounded-full text-xs bg-neutral-200/80 dark:bg-neutral-700/80">Social Networking</span>
+                                    <span class="px-3 py-1 rounded-full text-xs bg-neutral-200/80 dark:bg-neutral-700/80">Team Leadership</span>
+                                </div>
+                            </div>
+                            <button ondblclick="enterDetailedView(2)" class="mt-4 px-6 py-2.5 rounded-full border border-black/20 dark:border-white/20 text-xs uppercase tracking-widest font-medium hover:bg-[#1a1a1a] hover:text-white dark:hover:bg-[#e8e6e3] dark:hover:text-[#121212] transition-all duration-300">
+                                Full Profile ↗ (Double-click)
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Member 3 -->
+                <div id="profile-3" class="profile-content flex-row gap-16 items-center">
+                    <div class="w-1/2 flex justify-start flex-shrink-0">
+                        <div class="relative w-full max-w-[450px] aspect-square rounded-2xl overflow-hidden shadow-2xl bg-neutral-200 dark:bg-neutral-800 border border-black/5 dark:border-white/5 group">
+                            <img src="https://images.unsplash.com/photo-1533738363-b7f9aef128ce?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover grayscale contrast-125 group-hover:scale-105 transition-transform duration-700" alt="">
+                            <div class="absolute bottom-4 left-4 bg-white/80 dark:bg-black/70 backdrop-blur-md px-3 py-1 rounded-md text-[10px] font-mono tracking-wider uppercase">Real Cat Companion</div>
+                        </div>
+                    </div>
+                    <div class="w-1/2 flex flex-col justify-center space-y-5">
+                        <div class="space-y-1">
+                            <span class="text-xs uppercase tracking-widest font-mono text-neutral-500 dark:text-neutral-400">Member 04 / 04</span>
+                            <h2 class="font-serif text-5xl md:text-6xl tracking-tight leading-none italic">Nguyễn Toàn Mỹ</h2>
+                        </div>
+                        <div class="space-y-4 pt-4 border-t border-black/10 dark:border-white/10">
+                            <div>
+                                <span class="text-xs uppercase tracking-widest text-neutral-400 dark:text-neutral-500 block font-mono mb-1">Student ID</span>
+                                <span class="text-xl md:text-2xl font-mono font-medium">23127429</span>
+                            </div>
+                            <div>
+                                <span class="text-xs uppercase tracking-widest text-neutral-400 dark:text-neutral-500 block font-mono mb-1">Hobby & Passions</span>
+                                <p class="text-lg md:text-xl font-light">Chơi game, đi arcade</p>
+                            </div>
+                            <div>
+                                <span class="text-xs uppercase tracking-widest text-neutral-400 dark:text-neutral-500 block font-mono mb-1.5">Skills</span>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="px-3 py-1 rounded-full text-xs bg-neutral-200/80 dark:bg-neutral-700/80">Arcade Mastery</span>
+                                    <span class="px-3 py-1 rounded-full text-xs bg-neutral-200/80 dark:bg-neutral-700/80">Competitive Gaming</span>
+                                    <span class="px-3 py-1 rounded-full text-xs bg-neutral-200/80 dark:bg-neutral-700/80">Quick Thinking</span>
+                                </div>
+                            </div>
+                            <button ondblclick="enterDetailedView(3)" class="mt-4 px-6 py-2.5 rounded-full border border-black/20 dark:border-white/20 text-xs uppercase tracking-widest font-medium hover:bg-[#1a1a1a] hover:text-white dark:hover:bg-[#e8e6e3] dark:hover:text-[#121212] transition-all duration-300">
+                                Full Profile ↗ (Double-click)
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MOBILE -->
+            <div id="mobile-scroll-wrapper" class="md:hidden flex flex-col space-y-12 w-full py-4">
+                <div class="flex flex-col items-center text-center space-y-4 bg-white/60 dark:bg-neutral-900/60 p-6 rounded-3xl border border-black/5 dark:border-white/5 shadow-sm">
+                    <div class="w-full max-w-[280px] aspect-square rounded-2xl overflow-hidden shadow-md bg-neutral-200 dark:bg-neutral-800">
+                        <img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover grayscale contrast-125" alt="">
+                    </div>
+                    <h2 class="font-serif text-3xl tracking-tight italic">Võ Mỹ Ngọc</h2>
+                    <p class="text-sm font-light">24127294</p>
+                    <button ondblclick="enterDetailedView(0)" class="px-5 py-2 rounded-full border border-black/20 dark:border-white/20 text-[11px] uppercase tracking-widest hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all duration-300">
+                        Full Profile ↗ (Double-click)
+                    </button>
+                </div>
+                <div class="flex flex-col items-center text-center space-y-4 bg-white/60 dark:bg-neutral-900/60 p-6 rounded-3xl border border-black/5 dark:border-white/5 shadow-sm">
+                    <div class="w-full max-w-[280px] aspect-square rounded-2xl overflow-hidden shadow-md bg-neutral-200 dark:bg-neutral-800">
+                        <img src="https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover grayscale contrast-125" alt="">
+                    </div>
+                    <h2 class="font-serif text-3xl tracking-tight italic">Lê Đức Thuận Phúc</h2>
+                    <p class="text-sm font-light">24127498</p>
+                    <button ondblclick="enterDetailedView(1)" class="px-5 py-2 rounded-full border border-black/20 dark:border-white/20 text-[11px] uppercase tracking-widest hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all duration-300">
+                        Full Profile ↗ (Double-click)
+                    </button>
+                </div>
+                <div class="flex flex-col items-center text-center space-y-4 bg-white/60 dark:bg-neutral-900/60 p-6 rounded-3xl border border-black/5 dark:border-white/5 shadow-sm">
+                    <div class="w-full max-w-[280px] aspect-square rounded-2xl overflow-hidden shadow-md bg-neutral-200 dark:bg-neutral-800">
+                        <img src="https://images.unsplash.com/photo-1548802673-380ab8ebc7b7?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover grayscale contrast-125" alt="">
+                    </div>
+                    <h2 class="font-serif text-3xl tracking-tight italic">Nguyễn Tiến Thành</h2>
+                    <p class="text-sm font-light">24127121</p>
+                    <button ondblclick="enterDetailedView(2)" class="px-5 py-2 rounded-full border border-black/20 dark:border-white/20 text-[11px] uppercase tracking-widest hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all duration-300">
+                        Full Profile ↗ (Double-click)
+                    </button>
+                </div>
+                <div class="flex flex-col items-center text-center space-y-4 bg-white/60 dark:bg-neutral-900/60 p-6 rounded-3xl border border-black/5 dark:border-white/5 shadow-sm">
+                    <div class="w-full max-w-[280px] aspect-square rounded-2xl overflow-hidden shadow-md bg-neutral-200 dark:bg-neutral-800">
+                        <img src="https://images.unsplash.com/photo-1533738363-b7f9aef128ce?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover grayscale contrast-125" alt="">
+                    </div>
+                    <h2 class="font-serif text-3xl tracking-tight italic">Nguyễn Toàn Mỹ</h2>
+                    <p class="text-sm font-light">23127429</p>
+                    <button ondblclick="enterDetailedView(3)" class="px-5 py-2 rounded-full border border-black/20 dark:border-white/20 text-[11px] uppercase tracking-widest hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all duration-300">
+                        Full Profile ↗ (Double-click)
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW 3: Detailed -->
+        <div id="detailed-member-view" class="view-section w-full opacity-0 pointer-events-none hidden scale-95">
+            <div id="detailed-content" class="w-full max-w-4xl mx-auto"></div>
+        </div>
+    </main>
+
+    <footer class="w-full max-w-7xl mx-auto px-4 sm:px-8 md:px-12 py-6 sm:py-8 flex flex-col sm:flex-row justify-between items-center gap-3 border-t border-black/10 dark:border-white/10 text-[11px] sm:text-xs font-mono text-neutral-500 dark:text-neutral-400">
+        <p>© 2026 Typography Showcase — Nhóm 7</p>
+        <p>Interactive Minimalist Portfolio System</p>
+    </footer>
+
+    <script>
+        const membersData = [
+            {
+                name: "Võ Mỹ Ngọc",
+                id: "24127294",
+                image: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=800&q=80",
+                tagline: "Storyteller • Listener • Connector",
+                bio: "Mỹ Ngọc is a thoughtful and curious student who finds joy in deep conversations and shared stories. She believes that the best ideas emerge when people gather, listen carefully, and exchange perspectives. Whether through podcasts, films, or late-night talks with friends, she constantly seeks meaning and connection.",
+                skills: [
+                    { name: "Communication", desc: "Natural ability to express ideas clearly and empathetically in both Vietnamese and English." },
+                    { name: "Content Curation", desc: "Skilled at discovering, organizing, and sharing meaningful media content." },
+                    { name: "Team Collaboration", desc: "Excellent at mediating group dynamics and ensuring everyone’s voice is heard." },
+                    { name: "Active Listening", desc: "Known for creating safe spaces where others feel comfortable opening up." }
+                ],
+                experience: [
+                    { year: "2024 – Present", title: "Podcast Circle Host", detail: "Organizes weekly informal podcast listening & discussion sessions with classmates." },
+                    { year: "2023 – 2024", title: "Media Group Projects", detail: "Participated in multiple collaborative storytelling and content-creation projects." },
+                    { year: "2023", title: "Student Club Volunteer", detail: "Helped coordinate community events focused on mental well-being and social bonding." }
+                ],
+                education: "Currently studying at university • Expected graduation 2027",
+                interests: "True-crime & self-growth podcasts, indie films, café hopping, deep late-night conversations",
+                quote: "“The quietest people often have the loudest minds.”"
+            },
+            {
+                name: "Lê Đức Thuận Phúc",
+                id: "24127498",
+                image: "https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&fit=crop&w=800&q=80",
+                tagline: "Athlete • Gamer • Music Lover",
+                bio: "Thuận Phúc lives for movement, competition, and good beats. Whether he’s on the field, in a ranked match, or discovering new tracks, he brings energy and focus. He values discipline from sports and the strategic thinking that gaming demands.",
+                skills: [
+                    { name: "Team Sports", desc: "Strong teamwork, leadership, and physical endurance from intramural competitions." },
+                    { name: "Strategic Gaming", desc: "Excellent at analyzing game mechanics and adapting strategies under pressure." },
+                    { name: "Music Appreciation", desc: "Deep knowledge of multiple genres and ability to curate playlists for any mood." },
+                    { name: "Physical Fitness", desc: "Consistent training routine and understanding of body performance." }
+                ],
+                experience: [
+                    { year: "2024 – Present", title: "Intramural Sports Team", detail: "Active player in university football and basketball leagues." },
+                    { year: "2023 – Present", title: "Competitive Gaming", detail: "Participated in several local multiplayer tournaments and ranked seasons." },
+                    { year: "2023", title: "Music Sharing Sessions", detail: "Organized casual listening parties and playlist exchanges with friends." }
+                ],
+                education: "Currently studying at university • Expected graduation 2027",
+                interests: "Football, ranked multiplayer games, vinyl collecting, workout playlists",
+                quote: "“Play hard, recover harder, and always stay hungry.”"
+            },
+            {
+                name: "Nguyễn Tiến Thành",
+                id: "24127121",
+                image: "https://images.unsplash.com/photo-1548802673-380ab8ebc7b7?auto=format&fit=crop&w=800&q=80",
+                tagline: "Film Enthusiast • Social Connector • Problem Solver",
+                bio: "Tiến Thành is the person you call when you need both a movie recommendation and a solid plan. He loves dissecting films, building communities, and solving problems with calm logic.",
+                skills: [
+                    { name: "Film Analysis", desc: "Ability to break down narrative structure, cinematography, and themes with insight." },
+                    { name: "Social Networking", desc: "Naturally builds and maintains strong connections across different friend circles." },
+                    { name: "Problem Solving", desc: "Logical thinker who approaches challenges methodically and creatively." },
+                    { name: "Team Leadership", desc: "Comfortable taking the lead in group projects and keeping everyone aligned." }
+                ],
+                experience: [
+                    { year: "2024 – Present", title: "Film Discussion Club", detail: "Regular participant and occasional moderator of weekly film analysis sessions." },
+                    { year: "2023 – Present", title: "Gaming Communities", detail: "Active member of several multiplayer gaming groups and Discord servers." },
+                    { year: "2023 – 2024", title: "Academic Project Lead", detail: "Led multiple course group projects, focusing on coordination and quality delivery." }
+                ],
+                education: "Currently studying at university • Expected graduation 2027",
+                interests: "Cinema (especially A24 & Korean films), board games, social gatherings, strategy games",
+                quote: "“Every good story needs both conflict and connection.”"
+            },
+            {
+                name: "Nguyễn Toàn Mỹ",
+                id: "23127429",
+                image: "https://images.unsplash.com/photo-1533738363-b7f9aef128ce?auto=format&fit=crop&w=800&q=80",
+                tagline: "Arcade King • Competitive Spirit • Fast Learner",
+                bio: "Toàn Mỹ thrives in high-score environments. From classic arcade machines to modern competitive titles, he approaches every game with focus, precision, and a desire to improve.",
+                skills: [
+                    { name: "Arcade Mastery", desc: "Extensive experience with classic and modern arcade systems, high-score chasing." },
+                    { name: "Competitive Gaming", desc: "Strong performance in ranked environments and local tournaments." },
+                    { name: "Hand-Eye Coordination", desc: "Exceptional reaction time and precision developed through years of play." },
+                    { name: "Quick Thinking", desc: "Ability to adapt instantly to new game mechanics and pressure situations." }
+                ],
+                experience: [
+                    { year: "2024 – Present", title: "Arcade Regular", detail: "Frequent visitor to local arcades, known for high scores on multiple machines." },
+                    { year: "2023 – Present", title: "Tournament Player", detail: "Participated in several gaming tournaments and community competitions." },
+                    { year: "2022 – Present", title: "Skill Sharing", detail: "Often helps friends improve techniques and understand advanced game systems." }
+                ],
+                education: "Currently studying at university • Expected graduation 2026",
+                interests: "Arcade cabinets, fighting games, rhythm games, collecting limited-edition controllers",
+                quote: "“The high score is just a milestone — the real win is the mastery.”"
+            }
+        ];
+
+        let currentView = 'group'; // 'group' | 'members' | 'detailed'
+        let currentMemberIndex = 0; // Theo dõi member đang được chọn
+
+        function toggleDarkMode() {
+            const html = document.documentElement;
+            const icon = document.getElementById('theme-icon');
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                html.classList.add('light');
+                icon.textContent = '☾';
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.classList.remove('light');
+                html.classList.add('dark');
+                icon.textContent = '☀';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+        (function() {
+            const saved = localStorage.getItem('theme');
+            const icon = document.getElementById('theme-icon');
+            if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+                document.documentElement.classList.remove('light');
+                if (icon) icon.textContent = '☀';
+            }
+        })();
+
+        function handleParallax(e) {
+            if (window.innerWidth < 768) return;
+            const box = document.getElementById('parallax-title-box');
+            if (!box) return;
+            const x = (e.clientX / window.innerWidth - 0.5) * 22;
+            const y = (e.clientY / window.innerHeight - 0.5) * 22;
+            box.style.transform = `translate(${x}px, ${y}px)`;
+        }
+
+        let lastTapTime = 0;
+        function handleMobileGroupTap() {
+            const currentTime = new Date().getTime();
+            if (currentTime - lastTapTime < 350) enterMemberView();
+            lastTapTime = currentTime;
+        }
+
+        function updateNavButtons(index) {
+            document.querySelectorAll('.member-btn').forEach(btn => {
+                btn.classList.remove('bg-[#1a1a1a]', 'dark:bg-[#e8e6e3]', 'text-[#f9f8f6]', 'dark:text-[#121212]', 'shadow-sm');
+                btn.classList.add('text-neutral-600', 'dark:text-neutral-400', 'hover:text-black', 'dark:hover:text-white', 'hover:bg-black/5', 'dark:hover:bg-white/10');
+            });
+            const activeButton = document.getElementById(`btn-${index}`);
+            if (activeButton) {
+                activeButton.classList.remove('text-neutral-600', 'dark:text-neutral-400', 'hover:text-black', 'dark:hover:text-white', 'hover:bg-black/5', 'dark:hover:bg-white/10');
+                activeButton.classList.add('bg-[#1a1a1a]', 'dark:bg-[#e8e6e3]', 'text-[#f9f8f6]', 'dark:text-[#121212]', 'shadow-sm');
+            }
+        }
+
+        function handleMemberNav(index) {
+            // Nếu đang ở detailed view → chuyển thẳng sang full profile của thành viên mới
+            if (currentView === 'detailed') {
+                enterDetailedView(index);
+            } else {
+                // Đang ở members list → chỉ switch tab
+                switchMember(index);
+            }
+        }
+
+        function enterMemberView() {
+            const groupView = document.getElementById('group-intro-view');
+            const membersView = document.getElementById('members-container-view');
+            const detailedView = document.getElementById('detailed-member-view');
+            const header = document.getElementById('main-header');
+
+            groupView.style.opacity = '0';
+            groupView.style.transform = 'scale(0.96)';
+            
+            setTimeout(() => {
+                groupView.classList.add('hidden');
+                detailedView.classList.add('hidden');
+                detailedView.style.opacity = '0';
+                detailedView.style.transform = 'scale(0.96)';
+                
+                membersView.classList.remove('hidden');
+                membersView.style.pointerEvents = 'auto';
+                membersView.style.opacity = '1';
+                membersView.style.transform = 'scale(1)';
+                
+                header.classList.remove('opacity-0', '-translate-y-4', 'pointer-events-none');
+                currentView = 'members';
+                // Giữ member đang chọn (nếu có) hoặc mặc định 0
+                switchMember(currentMemberIndex);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 450);
+        }
+
+        function returnToGroupView() {
+            const groupView = document.getElementById('group-intro-view');
+            const membersView = document.getElementById('members-container-view');
+            const detailedView = document.getElementById('detailed-member-view');
+            const header = document.getElementById('main-header');
+
+            header.classList.add('opacity-0', '-translate-y-4', 'pointer-events-none');
+            
+            membersView.style.opacity = '0';
+            membersView.style.transform = 'scale(0.96)';
+            detailedView.style.opacity = '0';
+            detailedView.style.transform = 'scale(0.96)';
+            
+            setTimeout(() => {
+                membersView.classList.add('hidden');
+                detailedView.classList.add('hidden');
+                
+                groupView.classList.remove('hidden');
+                groupView.style.opacity = '1';
+                groupView.style.transform = 'scale(1)';
+                currentView = 'group';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 450);
+        }
+
+        function switchMember(index) {
+            currentMemberIndex = index; // Cập nhật index hiện tại
+            document.querySelectorAll('.profile-content').forEach(p => p.classList.remove('active'));
+            const activeProfile = document.getElementById(`profile-${index}`);
+            if (activeProfile) activeProfile.classList.add('active');
+            updateNavButtons(index);
+        }
+
+        function enterDetailedView(index) {
+            currentMemberIndex = index; // Cập nhật index hiện tại
+            const data = membersData[index];
+            const membersView = document.getElementById('members-container-view');
+            const detailedView = document.getElementById('detailed-member-view');
+            const content = document.getElementById('detailed-content');
+
+            // Cập nhật nút nav ngay
+            updateNavButtons(index);
+
+            content.innerHTML = `
+                <div class="flex flex-col md:flex-row gap-10 md:gap-16 items-start">
+                    <div class="w-full md:w-2/5 flex-shrink-0">
+                        <div class="relative aspect-square rounded-2xl overflow-hidden shadow-2xl bg-neutral-200 dark:bg-neutral-800 border border-black/5 dark:border-white/5 group">
+                            <img src="${data.image}" class="w-full h-full object-cover grayscale contrast-125 group-hover:scale-105 transition-transform duration-700" alt="${data.name}">
+                        </div>
+                        <button onclick="backToMembers()" class="mt-6 w-full px-6 py-3 rounded-full border border-black/20 dark:border-white/20 text-xs uppercase tracking-widest font-medium hover:bg-[#1a1a1a] hover:text-white dark:hover:bg-[#e8e6e3] dark:hover:text-[#121212] transition-all duration-300">
+                            ← Back to Members
+                        </button>
+                    </div>
+                    <div class="w-full md:w-3/5 space-y-8">
+                        <div>
+                            <span class="text-xs uppercase tracking-widest font-mono text-neutral-500 dark:text-neutral-400">Detailed Profile</span>
+                            <h1 class="font-serif text-4xl sm:text-5xl md:text-6xl tracking-tight italic mt-1">${data.name}</h1>
+                            <p class="text-sm font-mono text-neutral-500 dark:text-neutral-400 mt-2">${data.id}</p>
+                            <p class="font-serif text-lg italic text-neutral-600 dark:text-neutral-400 mt-3">${data.tagline}</p>
+                        </div>
+                        <div class="border-t border-black/10 dark:border-white/10 pt-6">
+                            <h3 class="text-xs uppercase tracking-widest font-mono text-neutral-400 dark:text-neutral-500 mb-3">About</h3>
+                            <p class="text-base leading-relaxed font-light">${data.bio}</p>
+                        </div>
+                        <div>
+                            <h3 class="text-xs uppercase tracking-widest font-mono text-neutral-400 dark:text-neutral-500 mb-4">Skills</h3>
+                            <div class="space-y-4">
+                                ${data.skills.map(s => `
+                                    <div>
+                                        <span class="font-medium">${s.name}</span>
+                                        <p class="text-sm text-neutral-600 dark:text-neutral-400 font-light mt-0.5">${s.desc}</p>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="text-xs uppercase tracking-widest font-mono text-neutral-400 dark:text-neutral-500 mb-4">Experience</h3>
+                            <div class="space-y-5">
+                                ${data.experience.map(e => `
+                                    <div class="flex gap-4">
+                                        <span class="text-xs font-mono text-neutral-400 dark:text-neutral-500 w-28 flex-shrink-0 pt-0.5">${e.year}</span>
+                                        <div>
+                                            <p class="font-medium">${e.title}</p>
+                                            <p class="text-sm text-neutral-600 dark:text-neutral-400 font-light mt-0.5">${e.detail}</p>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 border-t border-black/10 dark:border-white/10 pt-6">
+                            <div>
+                                <h3 class="text-xs uppercase tracking-widest font-mono text-neutral-400 dark:text-neutral-500 mb-2">Education</h3>
+                                <p class="text-sm font-light">${data.education}</p>
+                            </div>
+                            <div>
+                                <h3 class="text-xs uppercase tracking-widest font-mono text-neutral-400 dark:text-neutral-500 mb-2">Interests</h3>
+                                <p class="text-sm font-light">${data.interests}</p>
+                            </div>
+                        </div>
+                        <blockquote class="border-l-2 border-black/20 dark:border-white/20 pl-5 italic font-serif text-lg text-neutral-700 dark:text-neutral-300 mt-8">
+                            ${data.quote}
+                        </blockquote>
+                    </div>
+                </div>
+            `;
+
+            // Nếu đang ở members list → animate ra
+            if (currentView === 'members') {
+                membersView.style.opacity = '0';
+                membersView.style.transform = 'scale(0.96)';
+                
+                setTimeout(() => {
+                    membersView.classList.add('hidden');
+                    membersView.style.pointerEvents = 'none';
+                    
+                    detailedView.classList.remove('hidden');
+                    detailedView.style.pointerEvents = 'auto';
+                    
+                    detailedView.offsetHeight;
+                    detailedView.style.opacity = '1';
+                    detailedView.style.transform = 'scale(1)';
+                    
+                    currentView = 'detailed';
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }, 450);
+            } else {
+                // Đang ở detailed rồi → chỉ thay nội dung + fade nhẹ
+                detailedView.style.opacity = '0.4';
+                setTimeout(() => {
+                    detailedView.style.opacity = '1';
+                    currentView = 'detailed';
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }, 200);
+            }
+        }
+
+        function backToMembers() {
+            const membersView = document.getElementById('members-container-view');
+            const detailedView = document.getElementById('detailed-member-view');
+
+            detailedView.style.opacity = '0';
+            detailedView.style.transform = 'scale(0.96)';
+            
+            setTimeout(() => {
+                detailedView.classList.add('hidden');
+                detailedView.style.pointerEvents = 'none';
+                
+                membersView.classList.remove('hidden');
+                membersView.style.pointerEvents = 'auto';
+                
+                // Quan trọng: switch sang đúng member đang được chọn trên navbar
+                switchMember(currentMemberIndex);
+                
+                membersView.offsetHeight;
+                membersView.style.opacity = '1';
+                membersView.style.transform = 'scale(1)';
+                
+                currentView = 'members';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 450);
+        }
+    </script>
+</body>
+</html>
